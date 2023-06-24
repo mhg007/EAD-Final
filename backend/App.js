@@ -29,10 +29,12 @@ app.get("/", function (req, res) {
       console.log(err);
     });
 });
+
 app.get("/recipes", async function (req, res) {
   const recipe = await Recipe.find();
   res.json(recipe);
 });
+
 app.get("/display", function (req, res) {
   Recipe.find()
     .then((recipes) => {
@@ -96,7 +98,14 @@ app.post("/upload/image", upload.single("file"), (req, res) => {
 app.post("/search", (req, res) => {
   Recipe.find({ name: req.body.name })
     .then((recipes) => {
-      res.render("Details", { recipes: recipes });
+      res.render("Details", {
+        recipes: {
+          title: req.body.title,
+          description: req.body.description,
+          ingredients: req.body.ingredients,
+          instructions: req.body.instructions,
+        },
+      });
     })
     .catch((err) => {
       console.log(err);
