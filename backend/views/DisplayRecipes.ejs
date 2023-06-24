@@ -8,7 +8,10 @@
 <body>
     <div>
         <h1>Recipes</h1>
-        
+        <form action="/search" method="post">
+            <input type="text" name="title" id="title" placeholder="Enter recipe title to search"/>
+            <button type="submit">Submit</button>
+        </form>
             <ul>
                 <% for(let i=0;i<recipes.length;i++){ %>
                     <li>

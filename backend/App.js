@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const Recipe = require("./models/Recipe");
 const upload = require("./middlewares/upload");
 const validateRecipe = require("./middlewares/validateRecipeFields");
@@ -50,15 +51,19 @@ app.get("/display/:id", function (req, res) {
     });
 });
 
-app.delete("/display/:id", function (req, res) {
+app.get("/delete/:id", function (req, res) {
   const id = req.params.id;
   Recipe.findByIdAndDelete(id)
     .then((recipes) => {
-      res.json({ redirect: "/display" });
+      res.redirect("/display");
     })
     .catch((err) => {
       console.log(err);
     });
+});
+
+app.get("/recipe/save", function (req, res) {
+  res.render("Recipe");
 });
 
 app.post("/recipe/save", validateRecipe, function (req, res) {
@@ -72,7 +77,6 @@ app.post("/recipe/save", validateRecipe, function (req, res) {
       console.log(err);
     });
 });
-
 app.post("/upload", upload.single("file"), (req, res) => {
   const path = req.file.path;
   console.log(path);
@@ -85,6 +89,16 @@ app.post("/upload/image", upload.single("file"), (req, res) => {
     name: file.filename,
     contentType: file.contentType,
   });
+});
+
+app.post("/search", (req, res) => {
+  Recipe.find({ name: req.body.name })
+    .then((recipes) => {
+      res.render("Details", { recipes: recipes });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.listen(3001, function () {

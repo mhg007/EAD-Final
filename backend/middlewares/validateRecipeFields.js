@@ -1,7 +1,7 @@
 const validateRecipe = (req, res, next) => {
-  const { name, description, ingredients, instructions } = req.body;
-  if (!name || !description || !ingredients || !instructions) {
-    return res.status(400).json({ msg: "Please enter all fields" });
+  const { title, description, ingredients, instructions } = req.body;
+  if (!title || !description || !ingredients || !instructions) {
+    return res.redirect("/recipe/save");
   }
   next();
 };
