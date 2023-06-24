@@ -8,7 +8,9 @@ const validateRecipe = require("./middlewares/validateRecipeFields");
 mongoose
   .connect("mongodb://127.0.0.1:27017/recipe")
   .then(() => {
-    console.log("Connected to database!");
+    app.listen(3001, function () {
+      console.log("Server is running on port 3001");
+    });
   })
   .catch(() => {
     console.log("Connection failed!");
@@ -99,8 +101,4 @@ app.post("/search", (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-});
-
-app.listen(3001, function () {
-  console.log("Server is running on port 3001");
 });
